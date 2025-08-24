@@ -112,7 +112,10 @@ jobs:
             cd ${{ env.dep_root }}
             rm -rf gds maglef openlane spi LICENSE manifest docs litex lvs .git
           fi
-
+      - name: Setup volare
+        run: |
+          cd ${{ env.CARAVEL_ROOT }}
+          make pdk-with-volare
       - name: Tarball Dependencies
         run: |
           tar -cf /tmp/${{ env.dep_name }}.tar -C ${{ env.dep_root }} .
@@ -174,10 +177,7 @@ jobs:
           sudo mkdir -p ${{ env.OPENLANE_ROOT }}
           sudo chown -R $USER:$USER ${{ env.OPENLANE_ROOT }}
           tar -xf /tmp/openlane.tar -C $OPENLANE_ROOT .
-      - name: Setup volare
-        run: |
-          cd ${{ env.CARAVEL_ROOT }}
-          make pdk-with-volare
+      
 
       - name: Harden using Openlane
         run: |
